@@ -8,10 +8,10 @@ below. Upstream `HelixDB/helix-db` is **Apache-2.0** — embedding here is licen
 | op | request | response |
 |---|---|---|
 | `open` | `{id, op:"open", path}` — opens/creates a DISK-mode db at `path` (single writer; engine holds the lease, §03) | `{id, ok, data:{}}` |
-| `query` | `{id, op:"query", route, params}` — `route` ∈ `docs/01` Helix routes (`concept_get`, `prereqs_of`, `concept_search_hybrid`, `chunk_search`, `concept_upsert`); `params` = SDK-style JSON batch | `{id, ok, data}` rows |
+| `query` | `{id, op:"query", route, params}` — `route` ∈ `docs/02-helix.md` routes (`concept_get`, `prereqs_of`, `concept_search_hybrid`, `chunk_search`, `concept_upsert`); `params` = SDK-style JSON batch | `{id, ok, data}` rows |
 | `close` | `{id, op:"close"}` — flush + checkpoint, release handle | `{id, ok}` |
 
-Errors: `{id, ok:false, error, code}` with engine codes (`invalid`, `not_found`, `conflict`, `unsupported`).
+Errors: `{id, ok:false, error, code}` with engine codes (`invalid`, `not_found`, `conflict`, `unsupported`, `internal`).
 
 ## Build rules
 

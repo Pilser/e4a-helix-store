@@ -11,10 +11,16 @@ license = "MIT OR Apache-2.0"
 # HelixDB engine, pinned git rev (bump in THIS crate only; engine never sees these deps).
 # Upstream: https://github.com/HelixDB/helix-db (Apache-2.0 — embedding is license-clean).
 helix-db-engine = { package = "db", git = "https://github.com/HelixDB/helix-db", rev = "16b7a8374f7a97684472a3a1462aa8adaca55e79" }
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-util", "sync"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-util", "io-std", "sync"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"
 
 [lints.rust]
 unsafe_code = "forbid"
+
+[dev-dependencies]
+# Same rev pin as the engine dep above. Tests build SDK-style JSON batches
+# with the AST builders (the same structs `db.query_json` parses), so the
+# roundtrip exercises the real stdio `params` path without hand-written JSON.
+helix-ast = { git = "https://github.com/HelixDB/helix-db", rev = "16b7a8374f7a97684472a3a1462aa8adaca55e79" }
