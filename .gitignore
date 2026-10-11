@@ -1,0 +1,16 @@
+# WHITELIST — everything is ignored except the paths explicitly un-ignored below.
+/*
+!.gitignore
+!Cargo.toml
+!Cargo.lock
+!README.md
+!AGENTS.md
+!src/
+!.github/
+.github/*
+!.github/workflows/
+.github/workflows/*
+!.github/workflows/ci.yml
+# build / runtime artifacts, even inside whitelisted dirs
+target/
+.env
