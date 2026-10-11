@@ -161,6 +161,11 @@ impl Store {
         };
         let bytes = serde_json::to_vec(params)
             .map_err(|e| StoreError::Invalid(format!("params are not valid JSON: {e}")))?;
+        // Structural check first: a batch the engine malformed is a client
+        // error (`invalid`), not a storage failure. Execution failures below
+        // keep the `from_helix` classification (`internal` fallback).
+        serde_json::from_slice::<helix_ast::query::QueryRequest>(&bytes)
+            .map_err(|e| StoreError::Invalid(format!("params are not a query batch: {e}")))?;
         let out = db
             .query_json(&bytes)
             .await
